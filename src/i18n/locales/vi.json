@@ -1,0 +1,41 @@
+{
+  "header": {
+    "about": "Giới thiệu",
+    "contact": "Liên hệ",
+    "services": "Dịch vụ",
+    "products": "Sản phẩm",
+    "accessorys": "Phụ kiện",
+    "shoes": "Giày",
+    "clothes": "Quần áo",
+    "male": "Nam",
+    "female": "Nữ",
+    "search": "Tìm kiếm sản phẩm..."
+  },
+  "welcome": "Chào mừng đến với KASport",
+  "vi": "Tiếng Việt",
+  "en": "Tiếng Anh",
+  "products": {
+    "title": "Danh sách sản phẩm",
+    "inStock": "Còn hàng",
+    "outOfStock": "Hết hàng",
+    "itemsPerPage": "Sản phẩm mỗi trang",
+    "of": "trong",
+    "searchResults": "Kết quả tìm kiếm",
+    "foundResults": "Tìm thấy {{count}} sản phẩm"
+  },
+  "productDetail": {
+    "notFound": "Không tìm thấy sản phẩm",
+    "backToHome": "Về trang chủ",
+    "back": "Quay lại",
+    "sku": "Mã SP",
+    "category": "Loại",
+    "brand": "Thương hiệu",
+    "chooseSize": "Chọn Size",
+    "quantity": "Số lượng",
+    "addToCart": "Mua Hàng",
+    "selectSize": "Vui lòng chọn size",
+    "stockAvailable": "Còn lại",
+    "items": "sản phẩm",
+    "exceedsStock": "Vượt quá số lượng tồn kho (tối đa: {{max}})"
+  }
+}
