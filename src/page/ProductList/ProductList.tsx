@@ -23,6 +23,7 @@ const ProductList = ({ category }: ProductListProps) => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const searchQuery = searchParams.get("search") || "";
+  const subCategory = searchParams.get("subCategory") || "";
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(12);
 
@@ -44,12 +45,16 @@ const ProductList = ({ category }: ProductListProps) => {
     setPage(0);
   };
 
-  // Filter by category
   let filteredProducts = category
     ? products.filter((p) => p.category === category)
     : products;
 
-  // Filter by search query
+  if (subCategory) {
+    filteredProducts = filteredProducts.filter(
+      (p) => p.subCategory === subCategory
+    );
+  }
+
   if (searchQuery) {
     const lowerQuery = searchQuery.toLowerCase();
     filteredProducts = filteredProducts.filter(
@@ -67,14 +72,31 @@ const ProductList = ({ category }: ProductListProps) => {
   return (
     <Box className="product-list-container" sx={{ padding: 0 }}>
       <Typography
-        sx={{ color: "black", fontSize: "30px", fontWeight: "bold", mb: 2 }}
+        sx={{ color: "black", fontSize: "20px", mb: 1, fontWeight: "bold" }}
       >
-        {searchQuery
-          ? `${t("products.searchResults")}: "${searchQuery}"`
-          : t("products.title")}
+        {category ? (
+          subCategory ? (
+            <>
+              {t("products.title")} &gt;{" "}
+              <b>
+                {t(
+                  `sidebar.${subCategory}${
+                    category === "shoes" ? "shoes" : "clothes"
+                  }`
+                )}
+              </b>
+            </>
+          ) : (
+            <>
+              {t("products.title")} &gt; <b>{t(`sidebar.${category}`)}</b>
+            </>
+          )
+        ) : (
+          t("products.title")
+        )}
       </Typography>
       {searchQuery && (
-        <Typography sx={{ color: "gray", fontSize: "16px", mb: 2 }}>
+        <Typography sx={{ color: "gray", fontSize: "20px", mb: 2 }}>
           {t("products.foundResults", { count: filteredProducts.length })}
         </Typography>
       )}

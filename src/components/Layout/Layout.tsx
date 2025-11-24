@@ -9,7 +9,7 @@ type LayoutProps = {
 };
 
 const Layout = ({ children }: LayoutProps) => {
-  const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
 
   return (
     <div className="layout">

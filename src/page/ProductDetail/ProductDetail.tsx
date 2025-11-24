@@ -18,7 +18,22 @@ const ProductDetail = () => {
 
   useEffect(() => window.scrollTo(0, 0), [id]);
 
+  // Auto-select "Không size" if it's the only size
+  useEffect(() => {
+    if (
+      product &&
+      product.sizes.length === 1 &&
+      product.sizes[0] === "Không size"
+    ) {
+      setSelectedSize("Không size");
+      setQuantity(0);
+    }
+  }, [product]);
+
   const sizeStock = selectedSize ? product?.sizeStock[selectedSize] || 0 : 0;
+  const hasMultipleSizes =
+    product &&
+    !(product.sizes.length === 1 && product.sizes[0] === "Không size");
   const priceBlock = useMemo(
     () => (
       <Box sx={{ mb: 3 }}>
@@ -142,45 +157,52 @@ const ProductDetail = () => {
               </Typography>
             ))}
           </Box>
-          <Box sx={{ mb: 3 }}>
-            <Typography sx={{ mb: 1, fontWeight: "bold", color: "black" }}>
-              {t("productDetail.chooseSize")}
-            </Typography>
-            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
-              {product.sizes.map((size) => {
-                const isOut = product.sizeStock[size] === 0;
-                const isActive = selectedSize === size;
-                return (
-                  <Button
-                    key={size}
-                    variant={isActive ? "contained" : "outlined"}
-                    disabled={isOut}
-                    onClick={() => {
-                      setSelectedSize(size);
-                      setQuantity(0);
-                      setQuantityError("");
-                    }}
-                    sx={{
-                      minWidth: 60,
-                      bgcolor: isOut ? "#f5f5f5" : isActive ? "#000" : "#fff",
-                      color: isOut ? "#999" : isActive ? "#fff" : "#000",
-                      textDecoration: isOut ? "line-through" : "none",
-                      borderColor: isOut ? "#ddd" : isActive ? "#000" : "#ccc",
-                      "&:hover": {
-                        bgcolor: isOut
-                          ? "#f5f5f5"
+
+          {hasMultipleSizes && (
+            <Box sx={{ mb: 3 }}>
+              <Typography sx={{ mb: 1, fontWeight: "bold", color: "black" }}>
+                {t("productDetail.chooseSize")}
+              </Typography>
+              <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
+                {product.sizes.map((size) => {
+                  const isOut = product.sizeStock[size] === 0;
+                  const isActive = selectedSize === size;
+                  return (
+                    <Button
+                      key={size}
+                      variant={isActive ? "contained" : "outlined"}
+                      disabled={isOut}
+                      onClick={() => {
+                        setSelectedSize(size);
+                        setQuantity(0);
+                        setQuantityError("");
+                      }}
+                      sx={{
+                        minWidth: 60,
+                        bgcolor: isOut ? "#f5f5f5" : isActive ? "#000" : "#fff",
+                        color: isOut ? "#999" : isActive ? "#fff" : "#000",
+                        textDecoration: isOut ? "line-through" : "none",
+                        borderColor: isOut
+                          ? "#ddd"
                           : isActive
-                          ? "#333"
-                          : "#f5f5f5",
-                      },
-                    }}
-                  >
-                    {size}
-                  </Button>
-                );
-              })}
+                          ? "#000"
+                          : "#ccc",
+                        "&:hover": {
+                          bgcolor: isOut
+                            ? "#f5f5f5"
+                            : isActive
+                            ? "#333"
+                            : "#f5f5f5",
+                        },
+                      }}
+                    >
+                      {size}
+                    </Button>
+                  );
+                })}
+              </Box>
             </Box>
-          </Box>
+          )}
 
           {selectedSize && (
             <Typography

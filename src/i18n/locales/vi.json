@@ -1,5 +1,10 @@
 {
-  "header": {
+  "navbar": {
+    "vi": "Tiếng Việt",
+    "en": "Tiếng Anh",
+    "search": "Tìm kiếm sản phẩm..."
+  },
+  "sidebar": {
     "about": "Giới thiệu",
     "contact": "Liên hệ",
     "services": "Dịch vụ",
@@ -7,13 +12,13 @@
     "accessorys": "Phụ kiện",
     "shoes": "Giày",
     "clothes": "Quần áo",
-    "male": "Nam",
-    "female": "Nữ",
-    "search": "Tìm kiếm sản phẩm..."
+    "racket": "Vợt",
+    "accessory": "Phụ kiện",
+    "footballshoes": "Giày đá bóng",
+    "badmintonshoes": "Giày cầu lông",
+    "footballclothes": "Quần áo đá bóng",
+    "badmintonclothes": "Quần áo cầu lông"
   },
-  "welcome": "Chào mừng đến với KASport",
-  "vi": "Tiếng Việt",
-  "en": "Tiếng Anh",
   "products": {
     "title": "Danh sách sản phẩm",
     "inStock": "Còn hàng",

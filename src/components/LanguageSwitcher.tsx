@@ -13,18 +13,19 @@ const LanguageSwitcher: React.FC = () => {
 
   const items: MenuProps["items"] = [
     {
-      label: t("vi"),
+      label: t("navbar.vi"),
       key: "vi",
       onClick: () => handleLanguageChange("vi"),
     },
     {
-      label: t("en"),
+      label: t("navbar.en"),
       key: "en",
       onClick: () => handleLanguageChange("en"),
     },
   ];
 
-  const currentLanguage = i18n.language === "vi" ? t("vi") : t("en");
+  const currentLanguage =
+    i18n.language === "vi" ? t("navbar.vi") : t("navbar.en");
 
   return (
     <Dropdown menu={{ items }} trigger={["click"]}>

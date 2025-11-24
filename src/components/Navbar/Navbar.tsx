@@ -1,203 +1,150 @@
 import { useState } from "react";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
+import { Box, Typography, IconButton } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import logoKASproto from "../../assets/logoKASprot.png";
 import LanguageSwitcher from "../LanguageSwitcher";
 
+const menuItems = [
+  { label: "navbar.products", path: "/" },
+  { label: "navbar.shoes", path: "/shoes" },
+  { label: "navbar.clothes", path: "/clothes" },
+  { label: "navbar.racket", path: "/racket" },
+  { label: "navbar.accessory", path: "/accessory" },
+];
+
 function Navbar() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-
-  const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
+  const [open, setOpen] = useState(false);
 
   const handleNavigate = (path: string) => {
     navigate(path);
-    handleMenuClose();
+    setOpen(false);
   };
 
   return (
     <>
+      {/* NAVBAR */}
       <Box
         sx={{
           backgroundColor: "black",
-          minHeight: "100px",
+          height: "100px",
+          px: 3,
           display: "flex",
           alignItems: "center",
-          width: "100%",
-          flexDirection: "row",
-          zIndex: 1000,
-          position: "fixed",
           justifyContent: "space-between",
+          position: "fixed",
+          width: "100%",
+          zIndex: 1000,
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            gap: "2rem",
-            marginLeft: "2rem",
-          }}
-        >
-          <Box
-            sx={{
-              "@media (max-width: 875px)": {
-                display: "none",
-              },
-            }}
-          >
+        <Box sx={{ display: "flex", alignItems: "center", gap: 3 }}>
+          {/* Logo PC */}
+          <Box sx={{ display: { xs: "none", sm: "block" } }}>
             <img
               src={logoKASproto}
-              alt="KASporto Logo"
+              alt="logo"
               style={{ height: "80px", cursor: "pointer" }}
               onClick={() => navigate("/")}
             />
           </Box>
 
-          <Box
-            sx={{
-              display: "flex",
-              gap: "2rem",
-              "@media (max-width: 875px)": {
-                display: "none",
-              },
-            }}
-          >
-            <Typography
-              sx={{
-                color: "white",
-                cursor: "pointer",
-                "&:hover": { color: "#1890ff", textDecoration: "underline" },
-              }}
-              onClick={() => navigate("/")}
-            >
-              {t("header.products")}
-            </Typography>
-            <Typography
-              sx={{
-                color: "white",
-                cursor: "pointer",
-                "&:hover": { color: "#1890ff", textDecoration: "underline" },
-              }}
-              onClick={() => navigate("/shoes")}
-            >
-              {t("header.shoes")}
-            </Typography>
-            <Typography
-              sx={{
-                color: "white",
-                cursor: "pointer",
-                "&:hover": { color: "#1890ff", textDecoration: "underline" },
-              }}
-              onClick={() => navigate("/clothes")}
-            >
-              {t("header.clothes")}
-            </Typography>
-          </Box>
+          {/* Menu Icon Mobile */}
           <IconButton
-            sx={{
-              display: "none",
-              color: "white",
-              "@media (max-width: 875px)": {
-                display: "flex",
-              },
-            }}
-            onClick={handleMenuClick}
+            onClick={() => setOpen(!open)}
+            sx={{ color: "white", display: { xs: "flex", sm: "none" } }}
           >
             <MenuIcon />
           </IconButton>
-          <Menu anchorEl={anchorEl} open={open} onClose={handleMenuClose}>
-            <MenuItem onClick={() => handleNavigate("/")}>
-              {t("header.products")}
-            </MenuItem>
-            <MenuItem onClick={() => handleNavigate("/shoes")}>
-              {t("header.shoes")}
-            </MenuItem>
-            <MenuItem onClick={() => handleNavigate("/clothes")}>
-              {t("header.clothes")}
-            </MenuItem>
-          </Menu>
         </Box>
 
+        {/* Search + Language */}
         <Box
           sx={{
             display: "flex",
             alignItems: "center",
-            gap: "1rem",
-            marginRight: "20px",
+            gap: 2,
+            marginRight: "50px",
           }}
         >
           <Box
             sx={{
-              display: "flex",
-              alignItems: "center",
-              backgroundColor: "rgba(255, 255, 255, 0.1)",
-              borderRadius: "4px",
-              padding: { xs: "6px 10px", sm: "8px 12px" },
-              "@media (max-width: 875px)": {
-                display: "none",
+              display: { xs: "none", sm: "flex" },
+              "@media (min-width: 376px)": {
+                display: "flex",
               },
+              alignItems: "center",
+              bgcolor: "rgba(255,255,255,0.1)",
+              p: "6px 10px",
+              borderRadius: "4px",
             }}
           >
             <input
               type="text"
-              placeholder={t("header.search")}
+              placeholder={t("navbar.search")}
               style={{
                 background: "transparent",
                 border: "none",
                 outline: "none",
                 color: "white",
-                fontSize: "14px",
-                width: "200px",
-                transition: "width 0.3s ease",
+                display: "block",
               }}
               onKeyPress={(e) => {
-                if (e.key === "Enter") {
-                  const searchTerm = (
-                    e.target as HTMLInputElement
-                  ).value.trim();
-                  if (searchTerm) {
-                    navigate(`/?search=${encodeURIComponent(searchTerm)}`);
-                  } else {
-                    navigate("/");
-                  }
-                }
+                if (e.key !== "Enter") return;
+                const searchTerm = (e.target as HTMLInputElement).value.trim();
+                navigate(searchTerm ? `/?search=${searchTerm}` : "/");
               }}
             />
-            <style>
-              {`
-                @media (max-width: 1024px) {
-                  input[placeholder="${t("header.search")}"] {
-                    width: 150px !important;
-                  }
-                }
-                @media (max-width: 768px) {
-                  input[placeholder="${t("header.search")}"] {
-                    width: 120px !important;
-                    font-size: 13px !important;
-                  }
-                }
-              `}
-            </style>
           </Box>
+
           <LanguageSwitcher />
         </Box>
       </Box>
+
+      {open && (
+        <Box
+          sx={{
+            position: "fixed",
+            top: "100px",
+            left: 0,
+            width: "100%",
+            bgcolor: "black",
+            display: { xs: "block", sm: "none" },
+            zIndex: 999,
+          }}
+        >
+          {menuItems.map((item) => (
+            <Box
+              key={item.path}
+              sx={{
+                px: 3,
+                py: 2,
+                color: "white",
+              }}
+              onClick={() => handleNavigate(item.path)}
+            >
+              <Typography>{t(item.label)}</Typography>
+            </Box>
+          ))}
+        </Box>
+      )}
+
+      {open && (
+        <Box
+          onClick={() => setOpen(false)}
+          sx={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 998,
+            display: { xs: "block", sm: "none" },
+            top: "100px",
+          }}
+        />
+      )}
     </>
   );
 }
+
 export default Navbar;
