@@ -6,13 +6,27 @@ import {
   Chip,
   Typography,
   Box,
+  CircularProgress,
+  Alert,
 } from "@mui/material";
-import { products, type Product } from "../../data/products";
 import { useTranslation } from "react-i18next";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import "./ProductList.css";
+
+import React, { useEffect, useState } from "react";
 import TablePagination from "@mui/material/TablePagination";
-import React from "react";
+
+type Product = {
+  id: string;
+  name: string;
+  category: string;
+  subCategory: string;
+  price: number;
+  image: string;
+  description: string;
+  brand: string;
+  inStock: boolean;
+};
 
 type ProductListProps = {
   category?: string;
@@ -24,8 +38,11 @@ const ProductList = ({ category }: ProductListProps) => {
   const [searchParams] = useSearchParams();
   const searchQuery = searchParams.get("search") || "";
   const subCategory = searchParams.get("subCategory") || "";
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(12);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(12);
 
   const handleProductClick = (product: Product) => {
     navigate(`/product/${product.id}`);
@@ -45,29 +62,40 @@ const ProductList = ({ category }: ProductListProps) => {
     setPage(0);
   };
 
-  let filteredProducts = category
-    ? products.filter((p) => p.category === category)
-    : products;
+  useEffect(() => {
+    const controller = new AbortController();
+    setLoading(true);
+    setError(null);
+    fetch("https://kasport-be-production.up.railway.app/api/products", {
+      signal: controller.signal,
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then(setProducts)
+      .catch((err) => {
+        if (err.name !== "AbortError")
+          setError(err.message || "Failed to fetch products");
+      })
+      .finally(() => setLoading(false));
+    return () => controller.abort();
+  }, []);
 
-  if (subCategory) {
-    filteredProducts = filteredProducts.filter(
-      (p) => p.subCategory === subCategory
-    );
-  }
+  const filteredProducts = products.filter(
+    (p) =>
+      (!category || p.category === category) &&
+      (!subCategory || p.subCategory === subCategory) &&
+      (!searchQuery ||
+        [p.name, p.brand, p.description].some((field) =>
+          field.toLowerCase().includes(searchQuery.toLowerCase())
+        ))
+  );
 
-  if (searchQuery) {
-    const lowerQuery = searchQuery.toLowerCase();
-    filteredProducts = filteredProducts.filter(
-      (p) =>
-        p.name.toLowerCase().includes(lowerQuery) ||
-        p.brand.toLowerCase().includes(lowerQuery) ||
-        p.description.toLowerCase().includes(lowerQuery)
-    );
-  }
-
-  const startIndex = page * rowsPerPage;
-  const endIndex = startIndex + rowsPerPage;
-  const displayedProducts = filteredProducts.slice(startIndex, endIndex);
+  const displayedProducts = filteredProducts.slice(
+    page * rowsPerPage,
+    page * rowsPerPage + rowsPerPage
+  );
 
   return (
     <Box className="product-list-container" sx={{ padding: 0 }}>
@@ -100,74 +128,82 @@ const ProductList = ({ category }: ProductListProps) => {
           {t("products.foundResults", { count: filteredProducts.length })}
         </Typography>
       )}
-      <Grid container spacing={2}>
-        {displayedProducts.map((product) => (
-          <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={product.id}>
-            <Card
-              sx={{
-                cursor: "pointer",
-                transition: "transform 0.2s, box-shadow 0.2s",
-                height: "100%",
-                display: "flex",
-                flexDirection: "column",
-                "&:hover": {
-                  transform: "translateY(-4px)",
-                  boxShadow: 6,
-                },
-              }}
-              onClick={() => handleProductClick(product)}
-              className="product-card"
-            >
-              <CardMedia
-                component="img"
-                height="350"
-                image={product.image}
-                alt={product.name}
-                sx={{ objectFit: "cover" }}
-              />
-              <CardContent
-                sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}
+      {loading ? (
+        <Box sx={{ display: "flex", justifyContent: "center", py: 4 }}>
+          <CircularProgress />
+        </Box>
+      ) : error ? (
+        <Alert severity="error">{error}</Alert>
+      ) : (
+        <Grid container spacing={2}>
+          {displayedProducts.map((product: Product) => (
+            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={product.id}>
+              <Card
+                sx={{
+                  cursor: "pointer",
+                  transition: "transform 0.2s, box-shadow 0.2s",
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  "&:hover": {
+                    transform: "translateY(-4px)",
+                    boxShadow: 6,
+                  },
+                }}
+                onClick={() => handleProductClick(product)}
+                className="product-card"
               >
-                <Typography
-                  sx={{
-                    minHeight: "48px",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    display: "-webkit-box",
-                    WebkitLineClamp: 2,
-                    WebkitBoxOrient: "vertical",
-                    mb: 1,
-                  }}
-                >
-                  {product.name}
-                </Typography>
-                <Typography
-                  variant="h6"
-                  sx={{ color: "#ff4d4f", fontWeight: "bold", mb: 1 }}
-                >
-                  {product.price.toLocaleString("vi-VN")}đ
-                </Typography>
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  sx={{ mb: 1 }}
-                >
-                  {product.brand}
-                </Typography>
-                <Chip
-                  label={
-                    product.inStock
-                      ? t("products.inStock")
-                      : t("products.outOfStock")
-                  }
-                  color={product.inStock ? "success" : "error"}
-                  size="small"
+                <CardMedia
+                  component="img"
+                  height="350"
+                  image={`/assets/${product.image}`}
+                  alt={product.name}
+                  sx={{ objectFit: "cover" }}
                 />
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
+                <CardContent
+                  sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}
+                >
+                  <Typography
+                    sx={{
+                      minHeight: "48px",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      display: "-webkit-box",
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: "vertical",
+                      mb: 1,
+                    }}
+                  >
+                    {product.name}
+                  </Typography>
+                  <Typography
+                    variant="h6"
+                    sx={{ color: "#ff4d4f", fontWeight: "bold", mb: 1 }}
+                  >
+                    {product.price.toLocaleString("vi-VN")}đ
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ mb: 1 }}
+                  >
+                    {product.brand}
+                  </Typography>
+                  <Chip
+                    label={
+                      product.inStock
+                        ? t("products.inStock")
+                        : t("products.outOfStock")
+                    }
+                    color={product.inStock ? "success" : "error"}
+                    size="small"
+                  />
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      )}
       <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
         <TablePagination
           component="div"

@@ -3,7 +3,7 @@ import { Box, Typography, IconButton } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import logoKASproto from "../../assets/logoKASprot.png";
+import logoKASproto from "../../../public/assets/logoKASprot.png";
 import LanguageSwitcher from "../LanguageSwitcher";
 
 const menuItems = [

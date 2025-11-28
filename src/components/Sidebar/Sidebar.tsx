@@ -10,10 +10,10 @@ import {
 } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import soccer from "../../assets/icons/soccericon.png";
-import shoes from "../../assets/icons/shoeIC.png";
-import clothes from "../../assets/icons/clothes.png";
-import badminton from "../../assets/icons/badminton.png";
+import soccer from "../../../public/assets/icons/soccericon.png";
+import shoes from "../../../public/assets/icons/shoeIC.png";
+import clothes from "../../../public/assets/icons/clothes.png";
+import badminton from "../../../public/assets/icons/badminton.png";
 
 type SidebarProps = {
   onToggle?: (expanded: boolean) => void;
