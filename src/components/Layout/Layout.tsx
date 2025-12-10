@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Navbar from "../Navbar/Navbar";
 import Sidebar from "../Sidebar/Sidebar";
 import type { ReactNode } from "react";
@@ -10,6 +11,11 @@ type LayoutProps = {
 
 const Layout = ({ children }: LayoutProps) => {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   return (
     <div className="layout">

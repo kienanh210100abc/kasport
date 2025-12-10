@@ -42,5 +42,34 @@
     "stockAvailable": "Available",
     "items": "items",
     "exceedsStock": "Exceeds available stock (max: {{max}})"
+  },
+  "checkout": {
+    "title": "Confirm Order",
+    "orderSummary": "Order Summary",
+    "customerInfo": "Customer Information",
+    "size": "Size",
+    "quantity": "Quantity",
+    "total": "Total",
+    "name": "Full Name",
+    "email": "Email",
+    "phone": "Phone Number",
+    "address": "Address",
+    "cancel": "Cancel",
+    "confirm": "Confirm Order",
+    "nameRequired": "Please enter your name",
+    "emailRequired": "Please enter your email",
+    "emailInvalid": "Invalid email address",
+    "phoneRequired": "Please enter your phone number",
+    "phoneInvalid": "Phone number must be 10-11 digits",
+    "addressRequired": "Please enter your address"
+  },
+  "cart": {
+    "title": "Shopping Cart",
+    "empty": "Your cart is empty",
+    "size": "Size",
+    "total": "Total",
+    "continueShopping": "Continue Shopping",
+    "checkout": "Checkout",
+    "totalItems": "Total items"
   }
 }

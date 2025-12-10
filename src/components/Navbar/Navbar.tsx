@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import logoKASproto from "../../../public/assets/logoKASprot.png";
 import LanguageSwitcher from "../LanguageSwitcher";
+import CartButton from "../CartButton/CartButton";
 
 const menuItems = [
   { label: "navbar.products", path: "/" },
@@ -26,7 +27,6 @@ function Navbar() {
 
   return (
     <>
-      {/* NAVBAR */}
       <Box
         sx={{
           backgroundColor: "black",
@@ -41,7 +41,6 @@ function Navbar() {
         }}
       >
         <Box sx={{ display: "flex", alignItems: "center", gap: 3 }}>
-          {/* Logo PC */}
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
             <img
               src={logoKASproto}
@@ -51,7 +50,6 @@ function Navbar() {
             />
           </Box>
 
-          {/* Menu Icon Mobile */}
           <IconButton
             onClick={() => setOpen(!open)}
             sx={{ color: "white", display: { xs: "flex", sm: "none" } }}
@@ -60,7 +58,6 @@ function Navbar() {
           </IconButton>
         </Box>
 
-        {/* Search + Language */}
         <Box
           sx={{
             display: "flex",
@@ -99,6 +96,7 @@ function Navbar() {
             />
           </Box>
 
+          <CartButton />
           <LanguageSwitcher />
         </Box>
       </Box>

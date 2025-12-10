@@ -26,7 +26,10 @@
     "itemsPerPage": "Sản phẩm mỗi trang",
     "of": "trong",
     "searchResults": "Kết quả tìm kiếm",
-    "foundResults": "Tìm thấy {{count}} sản phẩm"
+    "foundResults": "Tìm thấy {{count}} sản phẩm",
+    "brand": "Thương hiệu",
+    "category": "Loại",
+    "available": "Tồn kho"
   },
   "productDetail": {
     "notFound": "Không tìm thấy sản phẩm",
@@ -42,5 +45,34 @@
     "stockAvailable": "Còn lại",
     "items": "sản phẩm",
     "exceedsStock": "Vượt quá số lượng tồn kho (tối đa: {{max}})"
+  },
+  "checkout": {
+    "title": "Xác Nhận Đơn Hàng",
+    "orderSummary": "Thông Tin Đơn Hàng",
+    "customerInfo": "Thông Tin Khách Hàng",
+    "size": "Size",
+    "quantity": "Số lượng",
+    "total": "Tổng cộng",
+    "name": "Họ và tên",
+    "email": "Email",
+    "phone": "Số điện thoại",
+    "address": "Địa chỉ",
+    "cancel": "Hủy",
+    "confirm": "Xác Nhận Đặt Hàng",
+    "nameRequired": "Vui lòng nhập họ tên",
+    "emailRequired": "Vui lòng nhập email",
+    "emailInvalid": "Email không hợp lệ",
+    "phoneRequired": "Vui lòng nhập số điện thoại",
+    "phoneInvalid": "Số điện thoại phải có 10-11 số",
+    "addressRequired": "Vui lòng nhập địa chỉ"
+  },
+  "cart": {
+    "title": "Giỏ Hàng",
+    "empty": "Giỏ hàng trống",
+    "size": "Size",
+    "total": "Tổng cộng",
+    "continueShopping": "Tiếp tục mua sắm",
+    "checkout": "Đặt hàng",
+    "totalItems": "Tổng số sản phẩm"
   }
 }
