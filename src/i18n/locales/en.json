@@ -71,5 +71,17 @@
     "continueShopping": "Continue Shopping",
     "checkout": "Checkout",
     "totalItems": "Total items"
+  },
+  "login": {
+    "title": "Login",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Login",
+    "emailRequired": "Please enter your email",
+    "emailInvalid": "Invalid email address",
+    "passwordRequired": "Please enter your password",
+    "passwordTooShort": "Password must be at least 6 characters",
+    "noAccount": "Don't have an account?",
+    "register": "Register"
   }
 }

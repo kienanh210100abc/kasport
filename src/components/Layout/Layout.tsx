@@ -1,15 +1,10 @@
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Outlet } from "react-router-dom";
 import Navbar from "../Navbar/Navbar";
 import Sidebar from "../Sidebar/Sidebar";
-import type { ReactNode } from "react";
 import "./Layout.css";
 
-type LayoutProps = {
-  children: ReactNode;
-};
-
-const Layout = ({ children }: LayoutProps) => {
+const Layout = () => {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
   const location = useLocation();
 
@@ -28,7 +23,7 @@ const Layout = ({ children }: LayoutProps) => {
             marginLeft: isSidebarExpanded ? "250px" : "70px",
           }}
         >
-          {children}
+          <Outlet />
         </main>
       </div>
     </div>

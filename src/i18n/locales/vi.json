@@ -74,5 +74,17 @@
     "continueShopping": "Tiếp tục mua sắm",
     "checkout": "Đặt hàng",
     "totalItems": "Tổng số sản phẩm"
+  },
+  "login": {
+    "title": "Đăng Nhập",
+    "email": "Email",
+    "password": "Mật khẩu",
+    "submit": "Đăng nhập",
+    "emailRequired": "Vui lòng nhập email",
+    "emailInvalid": "Email không hợp lệ",
+    "passwordRequired": "Vui lòng nhập mật khẩu",
+    "passwordTooShort": "Mật khẩu phải ít nhất 6 ký tự",
+    "noAccount": "Chưa có tài khoản?",
+    "register": "Đăng ký"
   }
 }

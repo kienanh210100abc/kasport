@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import logoKASproto from "../../../public/assets/logoKASprot.png";
 import LanguageSwitcher from "../LanguageSwitcher";
 import CartButton from "../CartButton/CartButton";
+import { AccountCircle } from "@mui/icons-material";
 
 const menuItems = [
   { label: "navbar.products", path: "/" },
@@ -97,6 +98,17 @@ function Navbar() {
           </Box>
 
           <CartButton />
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 1,
+              cursor: "pointer",
+            }}
+            onClick={() => navigate("/login")}
+          >
+            <AccountCircle /> {t("login.title")}
+          </Box>
           <LanguageSwitcher />
         </Box>
       </Box>
